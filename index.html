@@ -124,63 +124,8 @@ label{font-size:11px;font-weight:900;color:#50697b}input,select,textarea{font:in
  .floating{right:12px;bottom:12px;padding:11px 14px}.form{grid-template-columns:1fr}.full{grid-column:auto}.modal-card{padding:27px 20px;border-radius:24px}
 }
 </style>
-
-<style id="tooth-cursor">
-/* Floating tooth cursor — desktop only */
-@media (pointer:fine) {
-  body { cursor: none; }
-  a, button, input, select, textarea { cursor: none; }
-  .tooth-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 46px;
-    height: 46px;
-    z-index: 9999;
-    pointer-events: none;
-    transform: translate3d(-100px,-100px,0);
-    transition: width .18s ease, height .18s ease, opacity .2s ease;
-    filter: drop-shadow(0 7px 14px rgba(8,43,69,.18));
-    opacity: 0;
-  }
-  .tooth-cursor svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .tooth-cursor.active {
-    width: 56px;
-    height: 56px;
-  }
-  .tooth-cursor.visible { opacity: 1; }
-}
-</style>
-
 </head>
 <body>
-
-<div class="tooth-cursor" id="toothCursor" aria-hidden="true">
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="toothFill" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#ffffff"/>
-        <stop offset="1" stop-color="#e8f7fb"/>
-      </linearGradient>
-      <linearGradient id="toothBlue" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#69cde4"/>
-        <stop offset="1" stop-color="#12669b"/>
-      </linearGradient>
-    </defs>
-    <path d="M19 9c-7 0-12 5-12 13 0 7 4 11 5 17 1 6 1 16 7 16 5 0 5-9 9-9s4 9 9 9c6 0 6-10 7-16 1-6 5-10 5-17 0-8-5-13-12-13-4 0-6 2-9 2s-5-2-9-2z"
-      fill="url(#toothFill)" stroke="#0b4267" stroke-width="2.4"/>
-    <path d="M14 20c5 3 9 3 13 0 4 3 8 3 13 0" fill="none" stroke="url(#toothBlue)" stroke-width="3" stroke-linecap="round"/>
-    <path d="M16 28c4 2 7 2 11 0 4 2 7 2 11 0" fill="none" stroke="#6fcfe5" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="22" cy="36" r="2" fill="#12669b"/>
-    <circle cx="32" cy="39" r="2" fill="#69cde4"/>
-    <circle cx="42" cy="36" r="2" fill="#12669b"/>
-  </svg>
-</div>
-
 
 <header id="header">
 <div class="container nav" id="nav">
@@ -364,43 +309,5 @@ function submitAppointment(e){
  window.location.href='https://wa.me/919500178008?text='+encodeURIComponent(text);
 }
 </script>
-
-<script id="tooth-cursor-js">
-(function(){
-  const tooth = document.getElementById('toothCursor');
-  if (!tooth || !window.matchMedia('(pointer:fine)').matches) return;
-
-  let x = -100, y = -100, tx = -100, ty = -100;
-  let visible = false;
-
-  window.addEventListener('mousemove', e => {
-    tx = e.clientX;
-    ty = e.clientY;
-    if (!visible) {
-      x = tx; y = ty; visible = true;
-      tooth.classList.add('visible');
-    }
-  }, {passive:true});
-
-  window.addEventListener('mouseleave', () => {
-    visible = false;
-    tooth.classList.remove('visible');
-  });
-
-  document.querySelectorAll('a,button,input,select,textarea').forEach(el => {
-    el.addEventListener('mouseenter', () => tooth.classList.add('active'));
-    el.addEventListener('mouseleave', () => tooth.classList.remove('active'));
-  });
-
-  function animate(){
-    x += (tx - x) * 0.18;
-    y += (ty - y) * 0.18;
-    tooth.style.transform = `translate3d(${x - tooth.offsetWidth/2}px,${y - tooth.offsetHeight/2}px,0)`;
-    requestAnimationFrame(animate);
-  }
-  animate();
-})();
-</script>
-
 </body>
 </html>
